@@ -3,7 +3,10 @@
 //
 
 #include <iostream>
+#include <GL/glew.h>
+#include <GL/glut.h>
 #include <GLFW/glfw3.h>
+
 
 
 GLFWwindow* create_window(){
@@ -13,6 +16,7 @@ GLFWwindow* create_window(){
     if(!glfwInit())
         return NULL;
 
+    glewInit();
 
     //Create the window
     window = glfwCreateWindow(640, 480 , "Hello World", NULL ,NULL);
