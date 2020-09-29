@@ -1,8 +1,17 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 
+struct ShaderProgramSource{
+
+    string VertexSource;
+    string FragmentSource;
+
+};
 
 static unsigned int compileShader( unsigned int type, const string& source ){
 
@@ -54,6 +63,46 @@ static int createShader( const string& vertexShader, const string& fragmentShade
 
 }
 
+static ShaderProgramSource parseShader(const std::string& filepath){
+
+    enum class shaderType{
+
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+
+    };
+
+    //Find the type of the shader from the file
+    ifstream stream(filepath);
+    string line;
+    stringstream ss[2];
+    shaderType type = shaderType::NONE;
+    while(getline(stream, line)){
+
+        //Shader is found on the line
+        if(line.find("#shader") != string::npos){
+
+            if(line.find("vertex") != string::npos) {
+                //Set mode to vertex
+                type = shaderType::VERTEX;
+            }else{
+                //Set mode to fragment
+                type = shaderType::FRAGMENT;
+
+            }
+
+        }else{
+
+            //Add the line to the stream
+            ss[(int)type] << line <<'\n';
+
+        }
+    }
+
+    //Return the struct of the Shaders
+    return {ss[0].str(), ss[1].str()};
+
+}
+
 int main( void ){
 
     GLFWwindow* window;
@@ -85,24 +134,10 @@ int main( void ){
     glCreateVertexArrays( 1, &vao );
     glBindVertexArray( vao );
 
-    string vertexShader =
-            "#version 330 core\n"
-            "\n"
-            "layout ( location = 0 ) in vec4 position;"
-            "\n"
-            "void main(){\n"
-            "gl_Position = position;\n"
-            "}\n";
-    string fragmentShader =
-            "#version 330 core\n"
-            "\n"
-            "layout ( location = 0 ) out vec4 color;"
-            "\n"
-            "void main(){\n"
-            "color = vec4(0.7,0.5,0.2,0.5);\n"
-            "}\n";
+    //Parse the shaders
+    ShaderProgramSource source = parseShader("./shaders");
 
-    unsigned int shader = createShader( vertexShader, fragmentShader );
+    unsigned int shader = createShader( source.VertexSource, source.FragmentSource );
     glUseProgram( shader );
 
     float positions[ 6 ] = {
