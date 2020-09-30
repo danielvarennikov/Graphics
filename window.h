@@ -11,7 +11,5 @@ unsigned int create_buffer();
 
 void render_buffer(int size,int starting_index,int attribute_num, float positions[]);
 
-void switch_to_window(GLFWwindow* window);
-
 
 #endif //OPENGL_WINDOW_H

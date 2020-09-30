@@ -10,29 +10,29 @@ int main( int argc, char** argv ){
 
     GLFWwindow* window = create_window();
 
-    GLuint vao = 0;
-    glCreateVertexArrays( 1, &vao );
-    glBindVertexArray( vao );
-
     //Parse the shaders
     ShaderProgramSource source = parseShader("./shaders");
 
     unsigned int shader = createShader( source.VertexSource, source.FragmentSource );
     glUseProgram( shader );
 
-    float positions[ 6 ] = {
+    float positions[ 12 ] = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
-            0.0f,  0.5f,
+            0.5f,  0.5f,
+
+            0.5f,  0.5f,
+            -0.5f,  0.5f,
+            -0.5f, -0.5f
     };
 
     //Create a vertex buffer
     create_buffer();
 
     //Render it
-    render_buffer(6,0,2,positions);
+    render_buffer(12,0,2,positions);
 
-    drawTriangle(window);
+    drawFigure(shapeType::SQUARE,window);
 
     glfwTerminate();
     return 0;

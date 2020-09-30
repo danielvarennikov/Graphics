@@ -4,7 +4,7 @@
 
 #include "figures.h"
 
-void drawTriangle(GLFWwindow* window){
+void drawFigure(shapeType type,GLFWwindow* window){
 
     //Loop until the user closes the window
     while( !glfwWindowShouldClose( window ) )
@@ -12,7 +12,7 @@ void drawTriangle(GLFWwindow* window){
         //Render here
         glClear( GL_COLOR_BUFFER_BIT );
 
-        glDrawArrays( GL_TRIANGLES, 0, 3 );
+        glDrawArrays( GL_TRIANGLES, 0, (type == shapeType::TRIANGLE)? 6 : 12);
 
         //Swap front and back buffers
         glfwSwapBuffers( window );
@@ -20,6 +20,5 @@ void drawTriangle(GLFWwindow* window){
         //Poll for and process events
         glfwPollEvents();
     }
-
 
 }

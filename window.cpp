@@ -118,31 +118,15 @@ GLFWwindow* create_window(){
 
     std::cout << glGetString( GL_VERSION ) << std::endl;
 
+    GLuint vao = 0;
+    glCreateVertexArrays( 1, &vao );
+    glBindVertexArray( vao );
+
     return window;
 
 }
 
 
-void switch_to_window(GLFWwindow* window){
-
-    glewInit();
-
-    //Loop until the user closes the window
-    while(!glfwWindowShouldClose(window)){
-
-
-        //Render
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        //Swap front and back buffer
-        glfwSwapBuffers(window);
-
-        //Process events
-        glfwPollEvents();
-
-    }
-
-}
 
 
 
