@@ -4,63 +4,7 @@
 
 #include <iostream>
 #include <GL/glew.h>
-#include <GL/glut.h>
 #include "window.h"
-
-float positions[6] = {
-        -0.5f, -0.5f,
-        0.0f,  0.5f,
-        0.5f, -0.5f
-};
-
-
-static unsigned int CompileShader(const std::string& source, unsigned int type){
-
-    unsigned int id = glCreateShader(type);
-    const char* src = source.c_str();
-    glShaderSource(id, 1, &src, nullptr);
-    glCompileShader(id);
-
-
-    //Error checking
-    int result;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-    if(result == GL_FALSE){
-
-        int length;
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char* message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(id, length, &length, message);
-        std::cout<<"Failed to compile "<< (type == GL_VERTEX_SHADER? "Vertex!" : "Fragment!")<<std::endl;
-        std::cout<<message<<std::endl;
-        glDeleteShader(id);
-        return 0;
-
-    }
-
-
-    return id;
-
-}
-
-static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader){
-
-    unsigned int program = glCreateProgram();
-    unsigned int vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
-    unsigned int fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
-
-    glAttachShader(program, vs);
-    glAttachShader(program, fs);
-    glLinkProgram(program);
-    glValidateProgram(program);
-
-    glDeleteShader(vs);
-    glDeleteShader(fs);
-
-    return program;
-
-}
-
 
 unsigned int create_buffer(){
 

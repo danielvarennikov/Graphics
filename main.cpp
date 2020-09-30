@@ -15,7 +15,7 @@ int main( int argc, char** argv ){
 
     unsigned int shader = createShader( source.VertexSource, source.FragmentSource );
     glUseProgram( shader );
-
+    
     float positions[ 12 ] = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
