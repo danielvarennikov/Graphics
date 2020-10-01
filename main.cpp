@@ -44,6 +44,9 @@ int main( int argc, char** argv ){
     unsigned int shader = createShader( source.VertexSource, source.FragmentSource );
     glUseProgram( shader );
 
+
+    UniformColorSet colors = uniformMode(shader, "u_Color",0.5,0.5,0.5,0.5);
+
     float positions[ 12 ] = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
@@ -60,7 +63,7 @@ int main( int argc, char** argv ){
     //Render it
     render_buffer(12,0,2,positions);
 
-    drawFigure(shapeType::SQUARE,window);
+    drawFigure(shapeType::SQUARE,window,0.01,0,colors);
 
     glfwTerminate();
     return 0;
